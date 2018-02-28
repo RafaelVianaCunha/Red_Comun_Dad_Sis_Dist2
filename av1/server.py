@@ -1,12 +1,21 @@
 import socket
 
+class jogador:
+    def __init__(self,nome):
+        _nome = nome
+    
+    
 class Jogo:
     def __init__(self):
-        _file = open(palavras.txt”, “r”) 
-        self.palavras =  file.readlines()
+        novoJogo(self)
 
-    def novoJogo(self, trick):
+    def novoJogo(self):
+        self._file = open("palavras.txt", r) 
+        self.palavras =  file.readlines()
         
+    def validarPalavra(palavra):
+        self._file = open("palavras.txt", r) 
+        self.palavras =  file.readlines()
 
 
 #servidor
