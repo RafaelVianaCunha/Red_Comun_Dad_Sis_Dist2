@@ -9,8 +9,6 @@ class Resposta:
 IP='localhost'
 porta=12397
 
-
-
 class Jogo:
     def __init__(self):
         arquivo = open('palavras.txt', 'r') 
@@ -24,6 +22,22 @@ class Jogo:
         self.palavra = random.choices(self.palavras)[0].lower().replace('\n', '')
         self.erros = 0
         print(self.palavra)
+
+        start, addr = self.socket_servidor.recvfrom(1024)
+        start = start.decode('utf-8').lower()
+
+        while (start != 'start'):
+            start, addr = self.socket_servidor.recvfrom(1024)
+            start = start.decode('utf-8').lower()
+        
+        palavraEscondida = ''
+        for letra in self.palavra:
+            palavraEscondida = palavraEscondida + '_ '
+
+        reposta = Resposta(palavraEscondida, self.erros)
+        data_string = pickle.dumps(reposta)
+        self.socket_servidor.sendto(data_string, addr)
+
         self.palpites = []
         self.main()
 

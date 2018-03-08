@@ -7,25 +7,89 @@ class Resposta:
 
 def print_error(erros):
     if (erros == 1):
-        print('        O')
+        print(""" 
+                 ___________
+                 |          |
+                 |         ---
+                 |          O
+                 | 
+                 |
+                 |
+                ---
+              """)
         return
     if (erros == 2):
-        print('        O\n        |')
+        print(""" 
+                 ___________
+                 |          |
+                 |         ---
+                 |          O
+                 |          |
+                 |
+                 |
+                ---
+              """)
         return
     if (erros == 3):
-        print('        O\n       /|')
+        print(""" 
+                 ___________
+                 |          |
+                 |         ---
+                 |          O
+                 |         /|
+                 |
+                 |
+                ---
+              """)
         return
     if (erros == 4):
-        print('        O\n       /|\\')
+        print(""" 
+                 ___________
+                 |          |
+                 |         ---
+                 |          O
+                 |         /|\\
+                 |
+                 |
+                ---
+              """)
         return
     if (erros == 5):
-        print('        O\n       /|\\\n       /')
+        print(""" 
+                 ___________
+                 |          |
+                 |         ---
+                 |          O
+                 |         /|\\
+                 |         /
+                 |
+                ---
+              """)
         return
     if (erros == 6):
-        print('        O\n       /|\\\n       / \\')
+        print(""" 
+                 ___________
+                 |          |
+                 |         ---
+                 |          O
+                 |         /|\\
+                 |         / \\
+                 |
+                ---
+              """)
         return
     if (erros == 7):
-        print('        O\n       ---\n       /|\\\n       / \\')
+        print(""" 
+                 ___________
+                 |          |
+                 |         ---
+                 |          O
+                 |         ---
+                 |         /|\\
+                 |         / \\
+                 |
+                ---
+              """)
         return
 
 #servidor
@@ -36,6 +100,15 @@ socket_cliente = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 #socket_cliente.bind((IP,porta))
 
+socket_cliente.sendto('start'.encode('utf-8'), (IP_server, porta_server))
+while (True):
+    rec, addr = socket_cliente.recvfrom(1024)
+    data = pickle.loads(rec)
+
+    if (data.palavra != ''):
+        print(data.palavra + '\n')
+        break
+
 palpite = input('Qual o seu palpite: ')
 
 while (palpite != 'sair'):
@@ -45,7 +118,7 @@ while (palpite != 'sair'):
     data = pickle.loads(rec)
     # print(rec.decode('utf-8'))
 
-    print(data.palavra)
+    print(data.palavra + '\n')
 
     print_error(data.erros)    
 
