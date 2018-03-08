@@ -1,4 +1,32 @@
-import socket
+import socket , pickle
+
+class Resposta:
+    def __init__(self, palavra, erros):
+        self.palavra = palavra
+        self.erros = erros
+
+def print_error(erros):
+    if (erros == 1):
+        print('        O')
+        return
+    if (erros == 2):
+        print('        O\n        |')
+        return
+    if (erros == 3):
+        print('        O\n       /|')
+        return
+    if (erros == 4):
+        print('        O\n       /|\\')
+        return
+    if (erros == 5):
+        print('        O\n       /|\\\n       /')
+        return
+    if (erros == 6):
+        print('        O\n       /|\\\n       / \\')
+        return
+    if (erros == 7):
+        print('        O\n       ---\n       /|\\\n       / \\')
+        return
 
 #servidor
 IP_server='localhost'
@@ -11,11 +39,25 @@ socket_cliente = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 palpite = input('Qual o seu palpite: ')
 
 while (palpite != 'sair'):
-    socket_cliente.sendto(palpite.encode('utf-8'), (IP_server, porta_server))
+    socket_cliente.sendto(palpite[0].encode('utf-8'), (IP_server, porta_server))
 
     rec, addr = socket_cliente.recvfrom(1024)
-    print(rec.decode('utf-8'))
+    data = pickle.loads(rec)
+    # print(rec.decode('utf-8'))
+
+    print(data.palavra)
+
+    print_error(data.erros)    
+
+    if (data.erros == 7):
+        print('Voce perdeu :(')
+        break
+
+    if ('_' not in data.palavra):
+        print('Parabens! Você ganhou')
+        break
 
     palpite = input('Qual o seu palpite: ')
 
 socket_cliente.close()  
+
